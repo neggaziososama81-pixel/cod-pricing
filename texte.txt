@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COD Pricing - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #5b21b6;
+    --purple-bright: #6d28d9;
+    --purple-light: #ede9fe;
+    --purple-border: #c4b5fd;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --white: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–gray-50);
+color: var(–gray-900);
+min-height: 100vh;
+}
+
+/* ── NAVBAR ── */
+nav {
+background: var(–purple);
+padding: 0 20px;
+height: 56px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+.nav-logo {
+display: flex;
+align-items: center;
+gap: 10px;
+color: white;
+font-family: ‘Syne’, sans-serif;
+font-weight: 800;
+font-size: 17px;
+letter-spacing: 0.5px;
+}
+
+.nav-logo-icon {
+width: 32px;
+height: 32px;
+background: rgba(255,255,255,0.2);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 16px;
+font-weight: 900;
+}
+
+.nav-actions {
+display: flex;
+align-items: center;
+gap: 18px;
+}
+
+.nav-actions button {
+background: none;
+border: none;
+color: white;
+cursor: pointer;
+font-size: 18px;
+opacity: 0.9;
+transition: opacity 0.2s;
+}
+
+.nav-actions button:hover { opacity: 1; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── SIMULATIONS LIST PAGE ── */
+.sim-page {
+padding: 24px 16px;
+max-width: 860px;
+margin: 0 auto;
+}
+
+.sim-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 20px;
+}
+
+.sim-header h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: 26px;
+font-weight: 800;
+color: var(–gray-900);
+}
+
+.btn-primary {
+background: var(–purple-bright);
+color: white;
+border: none;
+padding: 10px 18px;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 6px;
+transition: background 0.2s, transform 0.1s;
+font-family: ‘DM Sans’, sans-serif;
+}
+
+.btn-primary:hover { background: var(–purple); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+/* Search */
+.search-box {
+position: relative;
+margin-bottom: 14px;
+}
+
+.search-box input {
+width: 100%;
+padding: 11px 16px 11px 42px;
+border: 1.5px solid var(–gray-200);
+border-radius: 8px;
+font-size: 14px;
+font-family: ‘DM Sans’, sans-serif;
+background: white;
+color: var(–gray-700);
+transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+outline: none;
+border-color: var(–purple-bright);
+}
+
+.search-icon {
+position: absolute;
+left: 14px;
+top: 50%;
+transform: translateY(-50%);
+color: var(–gray-500);
+font-size: 15px;
+}
+
+/* Filters */
+.filters {
+display: flex;
+gap: 10px;
+margin-bottom: 20px;
+flex-wrap: wrap;
+}
+
+.filters label {
+font-size: 12px;
+color: var(–gray-500);
+margin-bottom: 4px;
+display: block;
+}
+
+.filters select {
+padding: 8px 32px 8px 12px;
+border: 1.5px solid var(–gray-200);
+border-radius: 8px;
+font-size: 13px;
+font-family: ‘DM Sans’, sans-serif;
+background: white;
+color: var(–gray-700);
+cursor: pointer;
+appearance: none;
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘12’ viewBox=‘0 0 24 24’ fill=‘none’ stroke=’%236b7280’ stroke-width=‘2’%3E%3Cpath d=‘M6 9l6 6 6-6’/%3E%3C/svg%3E”);
+background-repeat: no-repeat;
+background-position: right 10px center;
+transition: border-color 0.2s;
+}
+
+.filters select:focus { outline: none; border-color: var(–purple-bright); }
+
+.filter-label { font-size: 13px; color: var(–gray-500); align-self: center; font-weight: 500; }
+
+/* Simulation Cards */
+.sim-card {
+background: white;
+border: 1.5px solid var(–gray-200);
+border-radius: 12px;
+padding: 16px;
+margin-bottom: 12px;
+cursor: pointer;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sim-card:hover { border-color: var(–purple-border); box-shadow: var(–shadow-md); }
+.sim-card.active-card { border-color: var(–purple-bright); box-shadow: 0 0 0 3px rgba(109,40,217,0.1); }
+
+.sim-card-header {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+margin-bottom: 6px;
+}
+
+.sim-card-title {
+display: flex;
+align-items: center;
+gap: 8px;
+flex-wrap: wrap;
+}
+
+.sim-card-title h3 {
+font-family: ‘Syne’, sans-serif;
+font-weight: 700;
+font-size: 15px;
+color: var(–gray-900);
+}
+
+.badge {
+padding: 2px 8px;
+border-radius: 4px;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.3px;
+}
+
+.badge-produit { background: var(–purple-bright); color: white; }
+.badge-test { background: var(–gray-200); color: var(–gray-700); }
+
+.sim-card-actions {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.sim-card-actions button {
+background: none;
+border: none;
+cursor: pointer;
+color: var(–gray-500);
+font-size: 15px;
+transition: color 0.2s;
+padding: 2px;
+}
+
+.sim-card-actions button:hover { color: var(–purple-bright); }
+.sim-card-actions button.delete:hover { color: var(–red); }
+
+.sim-card-desc {
+font-size: 12px;
+color: var(–gray-500);
+margin-bottom: 10px;
+line-height: 1.4;
+}
+
+.sim-card-fees {
+display: flex;
+justify-content: flex-end;
+margin-bottom: 10px;
+}
+
+.fees-badge {
+font-size: 11px;
+color: var(–gray-500);
+background: var(–gray-100);
+padding: 3px 8px;
+border-radius: 20px;
+}
+
+.sim-stats {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+}
+
+.stat-pill {
+flex: 1;
+min-width: 80px;
+text-align: center;
+}
+
+.stat-pill .val {
+font-weight: 700;
+font-size: 13px;
+color: var(–purple-bright);
+display: block;
+}
+
+.stat-pill .val.green { color: var(–green); }
+
+.stat-pill .lbl {
+font-size: 10px;
+color: var(–gray-500);
+display: block;
+margin-top: 2px;
+}
+
+/* ── SIMULATION DETAIL PAGE ── */
+.detail-page {
+padding: 20px 16px 40px;
+max-width: 860px;
+margin: 0 auto;
+}
+
+.detail-page h2 {
+font-family: ‘Syne’, sans-serif;
+font-size: 20px;
+font-weight: 800;
+color: var(–purple-bright);
+margin-bottom: 4px;
+}
+
+.detail-desc {
+font-size: 13px;
+color: var(–gray-500);
+margin-bottom: 16px;
+}
+
+.detail-actions {
+display: flex;
+gap: 10px;
+margin-bottom: 20px;
+}
+
+.btn-outline {
+background: none;
+border: 1.5px solid var(–gray-300);
+color: var(–purple-bright);
+padding: 8px 16px;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: background 0.2s;
+}
+
+.btn-outline:hover { background: var(–purple-light); }
+
+/* Accordion Section */
+.accordion {
+background: white;
+border: 1.5px solid var(–gray-200);
+border-radius: 12px;
+margin-bottom: 14px;
+overflow: hidden;
+}
+
+.accordion-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 16px;
+cursor: pointer;
+user-select: none;
+transition: background 0.15s;
+}
+
+.accordion-header:hover { background: var(–gray-50); }
+
+.accordion-header h3 {
+font-weight: 600;
+font-size: 15px;
+color: var(–gray-900);
+}
+
+.accordion-arrow {
+color: var(–purple-bright);
+font-size: 16px;
+transition: transform 0.2s;
+}
+
+.accordion.open .accordion-arrow { transform: rotate(180deg); }
+
+.accordion-body {
+display: none;
+padding: 0 16px 16px;
+border-top: 1px solid var(–gray-100);
+}
+
+.accordion.open .accordion-body { display: block; }
+
+/* Form Grid */
+.form-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 14px;
+padding-top: 14px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+
+.form-label {
+font-size: 12px;
+font-weight: 500;
+color: var(–gray-700);
+display: flex;
+align-items: center;
+gap: 5px;
+}
+
+.input-wrap {
+display: flex;
+border: 1.5px solid var(–gray-200);
+border-radius: 8px;
+overflow: hidden;
+transition: border-color 0.2s;
+}
+
+.input-wrap:focus-within { border-color: var(–purple-bright); }
+
+.input-wrap input, .input-wrap select {
+flex: 1;
+padding: 9px 12px;
+border: none;
+font-size: 14px;
+font-family: ‘DM Sans’, sans-serif;
+color: var(–gray-900);
+background: white;
+}
+
+.input-wrap input:focus, .input-wrap select:focus { outline: none; }
+
+.input-suffix {
+padding: 9px 12px;
+background: var(–gray-50);
+color: var(–purple-bright);
+font-size: 13px;
+font-weight: 600;
+border-left: 1px solid var(–gray-200);
+white-space: nowrap;
+}
+
+.checkbox-wrap {
+display: flex;
+align-items: center;
+gap: 8px;
+padding-top: 4px;
+}
+
+.checkbox-wrap input[type=“checkbox”] {
+width: 15px;
+height: 15px;
+accent-color: var(–purple-bright);
+cursor: pointer;
+}
+
+.checkbox-wrap label {
+font-size: 13px;
+color: var(–gray-700);
+font-weight: 500;
+cursor: pointer;
+}
+
+/* Tabs (Employee / Fixed / Tools) */
+.tabs {
+display: flex;
+border-bottom: 2px solid var(–gray-200);
+margin-top: 14px;
+margin-bottom: 0;
+}
+
+.tab {
+padding: 8px 14px;
+font-size: 13px;
+font-weight: 600;
+color: var(–gray-500);
+cursor: pointer;
+border-bottom: 2px solid transparent;
+margin-bottom: -2px;
+transition: color 0.2s, border-color 0.2s;
+}
+
+.tab.active { color: var(–purple-bright); border-bottom-color: var(–purple-bright); }
+
+.tab-panel { display: none; padding: 14px 0; }
+.tab-panel.active { display: block; }
+
+.empty-state {
+text-align: center;
+padding: 20px;
+color: var(–gray-500);
+font-size: 13px;
+background: var(–gray-50);
+border-radius: 8px;
+}
+
+/* Result Card */
+.result-card {
+background: white;
+border: 1.5px solid var(–gray-200);
+border-radius: 12px;
+padding: 16px;
+margin-bottom: 14px;
+}
+
+.result-card-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 4px;
+flex-wrap: wrap;
+}
+
+.result-card-header h3 {
+font-family: ‘Syne’, sans-serif;
+font-weight: 800;
+font-size: 16px;
+}
+
+.result-note {
+font-size: 12px;
+color: var(–gray-500);
+margin-bottom: 6px;
+}
+
+.result-frais {
+font-size: 13px;
+color: var(–gray-700);
+margin-bottom: 12px;
+}
+
+.result-stats {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 8px;
+margin-bottom: 14px;
+}
+
+.result-stat {
+border: 1px solid var(–gray-200);
+border-radius: 8px;
+padding: 10px 8px;
+text-align: center;
+}
+
+.result-stat .v {
+font-weight: 700;
+font-size: 14px;
+color: var(–green);
+display: block;
+margin-bottom: 3px;
+}
+
+.result-stat .l {
+font-size: 10px;
+color: var(–gray-500);
+}
+
+/* Period Tabs */
+.period-tabs {
+display: flex;
+border-bottom: 2px solid var(–gray-200);
+margin-bottom: 14px;
+}
+
+/* Table */
+.result-table { width: 100%; border-collapse: collapse; }
+
+.result-table th {
+text-align: left;
+font-size: 12px;
+font-weight: 700;
+color: var(–gray-700);
+padding: 8px 12px;
+background: var(–gray-100);
+}
+
+.result-table th:last-child { text-align: right; }
+
+.result-table td {
+padding: 9px 12px;
+font-size: 13px;
+border-bottom: 1px solid var(–gray-100);
+}
+
+.result-table td:last-child { text-align: right; }
+
+.result-table tr:last-child td { border-bottom: none; }
+
+.result-table td.purple { color: var(–purple-bright); font-weight: 600; }
+.result-table td.green { color: var(–green); font-weight: 700; }
+.result-table td.bold { font-weight: 700; }
+
+.result-table tr.total-row td {
+background: var(–gray-50);
+font-weight: 700;
+font-size: 14px;
+border-top: 2px solid var(–gray-200);
+}
+
+.result-table tr.total-row td.green { color: var(–green); }
+
+/* Chat bubble */
+.chat-btn {
+position: fixed;
+bottom: 20px;
+right: 20px;
+width: 48px;
+height: 48px;
+background: var(–purple-bright);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 20px;
+cursor: pointer;
+box-shadow: 0 4px 14px rgba(109,40,217,0.4);
+border: none;
+transition: transform 0.2s;
+}
+
+.chat-btn:hover { transform: scale(1.08); }
+
+/* Footer */
+footer {
+text-align: center;
+font-size: 11px;
+color: var(–gray-300);
+padding: 16px;
+margin-top: 10px;
+}
+
+footer a { color: var(–gray-400); text-decoration: none; }
+
+/* New Sim Modal */
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.5);
+z-index: 200;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+background: white;
+border-radius: 16px;
+padding: 24px;
+width: 100%;
+max-width: 420px;
+box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal h3 {
+font-family: ‘Syne’, sans-serif;
+font-size: 18px;
+font-weight: 800;
+margin-bottom: 16px;
+color: var(–gray-900);
+}
+
+.modal .form-group { margin-bottom: 14px; }
+
+.modal label {
+display: block;
+font-size: 13px;
+font-weight: 600;
+color: var(–gray-700);
+margin-bottom: 5px;
+}
+
+.modal input, .modal select {
+width: 100%;
+padding: 10px 12px;
+border: 1.5px solid var(–gray-200);
+border-radius: 8px;
+font-size: 14px;
+font-family: ‘DM Sans’, sans-serif;
+color: var(–gray-900);
+transition: border-color 0.2s;
+}
+
+.modal input:focus, .modal select:focus {
+outline: none;
+border-color: var(–purple-bright);
+}
+
+.modal-actions {
+display: flex;
+gap: 10px;
+justify-content: flex-end;
+margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+.form-grid { grid-template-columns: 1fr; }
+.result-stats { grid-template-columns: repeat(2, 1fr); }
+.sim-stats { gap: 6px; }
+.stat-pill .val { font-size: 12px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">⚡</div>
+    COD PRICING
+  </div>
+  <div class="nav-actions">
+    <button onclick="showPage('sims')" title="Simulations">🔔</button>
+    <button onclick="toggleMenu()" title="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 : LISTE DES SIMULATIONS
+══════════════════════════════════════════ -->
+
+<div id="page-sims" class="page active">
+  <div class="sim-page">
+    <div class="sim-header">
+      <h1>Simulations</h1>
+      <button class="btn-primary" onclick="openModal()">
+        + Nouvelle simulation
+      </button>
+    </div>
+
+```
+<!-- Search -->
+<div class="search-box">
+  <span class="search-icon">🔍</span>
+  <input type="text" placeholder="Tapez ici pour rechercher" id="searchInput" oninput="filterCards()">
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <span class="filter-label">Filtres</span>
+  <select onchange="filterCards()">
+    <option>Tous</option>
+    <option>Produit</option>
+    <option>Test</option>
+  </select>
+  <select onchange="filterCards()">
+    <option>Tous</option>
+    <option>No Fees</option>
+  </select>
+  <select onchange="filterCards()">
+    <option>Toutes</option>
+    <option>DZD</option>
+    <option>USD</option>
+  </select>
+</div>
+
+<!-- Cards -->
+<div id="cards-container">
+
+  <!-- LUNETTE -->
+  <div class="sim-card active-card" onclick="showDetail('lunette')">
+    <div class="sim-card-header">
+      <div class="sim-card-title">
+        <h3>LUNETTE</h3>
+        <span class="badge badge-produit">Produit</span>
+      </div>
+      <div class="sim-card-actions">
+        <button title="Voir" onclick="event.stopPropagation(); showDetail('lunette')">👁</button>
+        <button title="Modifier" onclick="event.stopPropagation(); showDetail('lunette')">✏️</button>
+        <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteCard(this)">🗑</button>
+      </div>
+    </div>
+    <p class="sim-card-desc">Les simulations de type 'Produit' avec la même variation de frais partagent les frais de manière égale</p>
+    <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+    <div class="sim-stats">
+      <div class="stat-pill"><span class="val">$90.00</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+      <div class="stat-pill"><span class="val">$2.00</span><span class="lbl">Coût / Cost</span></div>
+      <div class="stat-pill"><span class="val">DZD 21.60</span><span class="lbl">Commandes livrées</span></div>
+      <div class="stat-pill"><span class="val">DZD 358.33</span><span class="lbl">Bénéfice net</span></div>
+      <div class="stat-pill"><span class="val green">19.46%</span><span class="lbl">ROI</span></div>
+    </div>
+  </div>
+
+  <!-- LUNETTE PEROU -->
+  <div class="sim-card" onclick="showDetail('lunette-perou')">
+    <div class="sim-card-header">
+      <div class="sim-card-title">
+        <h3>LUNETTE PEROU</h3>
+        <span class="badge badge-produit">Produit</span>
+      </div>
+      <div class="sim-card-actions">
+        <button title="Voir" onclick="event.stopPropagation(); showDetail('lunette-perou')">👁</button>
+        <button title="Modifier" onclick="event.stopPropagation()">✏️</button>
+        <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteCard(this)">🗑</button>
+      </div>
+    </div>
+    <p class="sim-card-desc">Les simulations de type 'Produit' avec la même variation de frais partagent les frais de manière égale</p>
+    <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+    <div class="sim-stats">
+      <div class="stat-pill"><span class="val">$24.00</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+      <div class="stat-pill"><span class="val">$1.00</span><span class="lbl">Coût / Cost</span></div>
+      <div class="stat-pill"><span class="val">DZD 16.80</span><span class="lbl">Commandes livrées</span></div>
+      <div class="stat-pill"><span class="val">DZD 670.00</span><span class="lbl">Bénéfice net</span></div>
+      <div class="stat-pill"><span class="val green">32.43%</span><span class="lbl">ROI</span></div>
+    </div>
+  </div>
+
+  <!-- MONTRE -->
+  <div class="sim-card" onclick="showDetail('montre')">
+    <div class="sim-card-header">
+      <div class="sim-card-title">
+        <h3>MONTRE</h3>
+        <span class="badge badge-produit">Produit</span>
+      </div>
+      <div class="sim-card-actions">
+        <button title="Voir" onclick="event.stopPropagation()">👁</button>
+        <button title="Modifier" onclick="event.stopPropagation()">✏️</button>
+        <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteCard(this)">🗑</button>
+      </div>
+    </div>
+    <p class="sim-card-desc">Les simulations de type 'Produit' avec la même variation de frais partagent les frais de manière égale</p>
+    <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+    <div class="sim-stats">
+      <div class="stat-pill"><span class="val">$100.00</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+      <div class="stat-pill"><span class="val">$2.00</span><span class="lbl">Coût / Cost</span></div>
+      <div class="stat-pill"><span class="val">DZD 18.00</span><span class="lbl">Commandes livrées</span></div>
+      <div class="stat-pill"><span class="val">DZD 22.64</span><span class="lbl">Bénéfice net</span></div>
+      <div class="stat-pill"><span class="val green">167.03%</span><span class="lbl">ROI</span></div>
+    </div>
+  </div>
+
+  <!-- TKACHER -->
+  <div class="sim-card" onclick="showDetail('tkacher')">
+    <div class="sim-card-header">
+      <div class="sim-card-title">
+        <h3>TKACHER</h3>
+        <span class="badge badge-test">Test</span>
+      </div>
+      <div class="sim-card-actions">
+        <button title="Voir" onclick="event.stopPropagation()">👁</button>
+        <button title="Modifier" onclick="event.stopPropagation()">✏️</button>
+        <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteCard(this)">🗑</button>
+      </div>
+    </div>
+    <p class="sim-card-desc">Les simulations de type 'Test' permettent d'évaluer une nouvelle stratégie</p>
+    <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+    <div class="sim-stats">
+      <div class="stat-pill"><span class="val">$100.00</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+      <div class="stat-pill"><span class="val">$2.00</span><span class="lbl">Coût / Cost</span></div>
+      <div class="stat-pill"><span class="val">DZD 18.00</span><span class="lbl">Commandes livrées</span></div>
+      <div class="stat-pill"><span class="val">DZD 7.24</span><span class="lbl">Bénéfice net</span></div>
+      <div class="stat-pill"><span class="val green">75.78%</span><span class="lbl">ROI</span></div>
+    </div>
+  </div>
+
+  <!-- WDEN -->
+  <div class="sim-card" onclick="showDetail('wden')">
+    <div class="sim-card-header">
+      <div class="sim-card-title">
+        <h3>WDEN</h3>
+        <span class="badge badge-test">Test</span>
+      </div>
+      <div class="sim-card-actions">
+        <button title="Voir" onclick="event.stopPropagation()">👁</button>
+        <button title="Modifier" onclick="event.stopPropagation()">✏️</button>
+        <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteCard(this)">🗑</button>
+      </div>
+    </div>
+    <p class="sim-card-desc">Les simulations de type 'Test' permettent d'évaluer une nouvelle stratégie</p>
+    <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+    <div class="sim-stats">
+      <div class="stat-pill"><span class="val">$80.00</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+      <div class="stat-pill"><span class="val">$1.50</span><span class="lbl">Coût / Cost</span></div>
+      <div class="stat-pill"><span class="val">DZD 15.00</span><span class="lbl">Commandes livrées</span></div>
+      <div class="stat-pill"><span class="val">DZD 300.00</span><span class="lbl">Bénéfice net</span></div>
+      <div class="stat-pill"><span class="val green">28.10%</span><span class="lbl">ROI</span></div>
+    </div>
+  </div>
+
+</div><!-- /cards-container -->
+
+<footer>© 2026 Cod Pricing. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></footer>
+```
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 2 : DÉTAILS DE LA SIMULATION
+══════════════════════════════════════════ -->
+
+<div id="page-detail" class="page">
+  <div class="detail-page">
+    <h2>Détails de la simulation</h2>
+    <p class="detail-desc">Modifiez ces champs pour exécuter une simulation du bénéfice net par commande, quotidiennement et mensuellement</p>
+
+```
+<div class="detail-actions">
+  <button class="btn-outline" onclick="showPage('sims')">Annuler</button>
+  <button class="btn-primary" onclick="saveAndCalculate()">Enregistrer les modifications</button>
+</div>
+
+<!-- Détails de base -->
+<div class="accordion" id="acc-base">
+  <div class="accordion-header" onclick="toggleAcc('acc-base')">
+    <h3>Détails de base</h3>
+    <span class="accordion-arrow">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">📝 Nom de la simulation</label>
+        <div class="input-wrap"><input type="text" id="f-name" value="LUNETTE"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📦 Type</label>
+        <div class="input-wrap">
+          <select id="f-type">
+            <option value="produit" selected>Produit</option>
+            <option value="test">Test</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Prix et ads -->
+<div class="accordion open" id="acc-prix">
+  <div class="accordion-header" onclick="toggleAcc('acc-prix')">
+    <h3>Prix et ads</h3>
+    <span class="accordion-arrow">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">🏷 Prix d'achat du produit</label>
+        <div class="input-wrap">
+          <input type="number" id="f-achat" value="750" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">$ Prix du dollar</label>
+        <div class="input-wrap">
+          <input type="number" id="f-dollar" value="250" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">💰 Prix de vente</label>
+        <div class="input-wrap">
+          <input type="number" id="f-vente" value="2500" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📅 Dollars dépensés par jour</label>
+        <div class="input-wrap">
+          <input type="number" id="f-dollars-day" value="90" oninput="calculate()">
+          <span class="input-suffix">$</span>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">🖩 Calculer en fonction du coût ou du nombre de commandes</label>
+        <div class="input-wrap">
+          <select id="f-calcmode" onchange="toggleCalcMode()">
+            <option value="cout">Entrer le coût manuellement</option>
+            <option value="commandes">Entrer le nombre de commandes</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="fg-cout">
+        <label class="form-label">💲 Coût / Cost</label>
+        <div class="input-wrap">
+          <input type="number" id="f-cout" value="2" oninput="calculate()">
+          <span class="input-suffix">$</span>
+        </div>
+      </div>
+      <div class="form-group" id="fg-commandes">
+        <label class="form-label">🔢 Nombre de commandes</label>
+        <div class="input-wrap">
+          <input type="number" id="f-commandes" value="45" oninput="calculate()">
+          <span class="input-suffix">Orders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Livraison et Confirmation -->
+<div class="accordion open" id="acc-livraison">
+  <div class="accordion-header" onclick="toggleAcc('acc-livraison')">
+    <h3>Livraison et Confirmation</h3>
+    <span class="accordion-arrow">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">🚚 Différence du prix de livraison</label>
+        <div class="input-wrap">
+          <input type="number" id="f-livraison" value="200" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">💳 Frais de COD</label>
+        <div class="input-wrap">
+          <input type="number" id="f-cod" value="0" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📦 Frais d'emballage</label>
+        <div class="input-wrap">
+          <input type="number" id="f-emballage" value="50" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">↩ Frais de retour</label>
+        <div class="input-wrap">
+          <input type="number" id="f-retour" value="150" oninput="calculate()">
+          <span class="input-suffix">DZD</span>
+        </div>
+      </div>
+      <div class="form-group full">
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="f-check-confirm" checked onchange="calculate()">
+          <label for="f-check-confirm">✅ Taux de confirmation</label>
+        </div>
+        <div class="input-wrap" style="margin-top:8px">
+          <input type="number" id="f-confirm" value="80" min="0" max="100" oninput="calculate()">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">🚛 Taux de livraison</label>
+        <div class="input-wrap">
+          <input type="number" id="f-taux-liv" value="60" min="0" max="100" oninput="calculate()">
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Frais -->
+<div class="accordion open" id="acc-frais">
+  <div class="accordion-header" onclick="toggleAcc('acc-frais')">
+    <h3>Frais</h3>
+    <span class="accordion-arrow">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div style="margin-top:10px">
+      <label class="form-label" style="margin-bottom:6px">Variation des frais</label>
+      <div class="input-wrap">
+        <select>
+          <option>Sélectionner une variation de frais</option>
+          <option>No Fees</option>
+          <option>Standard</option>
+        </select>
+      </div>
+    </div>
+    <div class="tabs" style="margin-top:14px">
+      <div class="tab active" onclick="switchTab(this,'tab-salaires')">Employee Salaries</div>
+      <div class="tab" onclick="switchTab(this,'tab-fixed')">Fixed Fees</div>
+      <div class="tab" onclick="switchTab(this,'tab-tools')">Tools Fees</div>
+    </div>
+    <div id="tab-salaires" class="tab-panel active">
+      <div class="empty-state">Aucun salaire d'employé disponible.</div>
+    </div>
+    <div id="tab-fixed" class="tab-panel">
+      <div class="empty-state">Aucun frais fixe disponible.</div>
+    </div>
+    <div id="tab-tools" class="tab-panel">
+      <div class="empty-state">Aucun frais d'outil disponible.</div>
+    </div>
+  </div>
+</div>
+
+<div class="detail-actions" style="justify-content:flex-end">
+  <button class="btn-outline" onclick="showPage('sims')">Annuler</button>
+  <button class="btn-primary" onclick="saveAndCalculate()">Enregistrer les modifications</button>
+</div>
+
+<!-- RESULT CARD -->
+<div class="result-card" id="result-section">
+  <div class="result-card-header">
+    <h3 id="r-name">LUNETTE</h3>
+    <span class="badge badge-produit" id="r-badge">Produit</span>
+  </div>
+  <p class="result-note">Les simulations de type 'Produit' avec la même variation de frais partagent les frais de manière égale</p>
+  <p class="result-frais"><strong>Frais:</strong> N/A</p>
+
+  <div class="result-stats">
+    <div class="result-stat">
+      <span class="v" id="r-net">DZD 358.33</span>
+      <span class="l">Bénéfice net</span>
+    </div>
+    <div class="result-stat">
+      <span class="v" id="r-daily">DZD 7 740.00 / Day</span>
+      <span class="l">Bénéfice net quotidien</span>
+    </div>
+    <div class="result-stat">
+      <span class="v" id="r-monthly">DZD 232 200.00</span>
+      <span class="l">Bénéfice net mensuel</span>
+    </div>
+    <div class="result-stat">
+      <span class="v" id="r-roi" style="color:#6d28d9">19.46%</span>
+      <span class="l">ROI</span>
+    </div>
+  </div>
+
+  <!-- Period Tabs -->
+  <div class="period-tabs">
+    <div class="tab active" onclick="switchPeriod(this,'par-commande')">Par commande</div>
+    <div class="tab" onclick="switchPeriod(this,'par-periode')">Par période</div>
+  </div>
+
+  <!-- Par commande -->
+  <div id="par-commande">
+    <table class="result-table">
+      <thead>
+        <tr><th>Étiquette</th><th>Prix</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="purple">Prix d'achat du produit</td><td id="t-achat">DZD 750.00</td></tr>
+        <tr><td class="purple">Prix de vente</td><td id="t-vente">DZD 2 500.00</td></tr>
+        <tr><td class="purple">Différence du prix de livraison</td><td id="t-diff-liv">DZD 200.00</td></tr>
+        <tr><td>Frais d'emballage</td><td id="t-emb">DZD 50.00</td></tr>
+        <tr><td class="purple">Coût de commande confirmée</td><td id="t-cout-conf">DZD 625.00</td></tr>
+        <tr><td class="purple">Coût de commande livrée</td><td id="t-cout-livr" style="color:#dc2626">DZD 1 041.67</td></tr>
+        <tr><td class="purple">Frais de retour par commande</td><td id="t-retour">DZD 100.00</td></tr>
+        <tr><td class="purple">Frais de COD par commande</td><td id="t-cod-cmd">DZD 0.00</td></tr>
+        <tr><td class="purple">Autres frais par commande</td><td>DZD 0.00</td></tr>
+        <tr><td class="purple">Frais des employés par commande</td><td>DZD 0.00</td></tr>
+        <tr class="total-row">
+          <td class="bold">Bénéfice net</td>
+          <td class="green" id="t-benefice">DZD 358.33</td>
+        </tr>
+        <tr class="total-row">
+          <td class="bold">ROI</td>
+          <td class="green" id="t-roi">19.46%</td>
+        </tr>
+        <tr class="total-row">
+          <td class="bold">ROAS</td>
+          <td class="green" id="t-roas">5.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Par période -->
+  <div id="par-periode" style="display:none">
+    <table class="result-table">
+      <thead>
+        <tr><th>Métrique</th><th>Valeur</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="purple">Commandes totales / jour</td><td id="tp-cmd-day">45</td></tr>
+        <tr><td class="purple">Commandes livrées / jour</td><td id="tp-liv-day">21.60</td></tr>
+        <tr><td class="purple">Bénéfice net / jour</td><td id="tp-net-day" class="green">DZD 7 740.00</td></tr>
+        <tr><td class="purple">Bénéfice net / mois</td><td id="tp-net-month" class="green">DZD 232 200.00</td></tr>
+        <tr><td class="purple">Dépenses pub / jour</td><td id="tp-pub">$90.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>© 2026 Cod Pricing. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></footer>
+```
+
+  </div>
+</div>
+
+<!-- Chat Bubble -->
+
+<button class="chat-btn" title="Support">💬</button>
+
+<!-- Modal Nouvelle Simulation -->
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3>+ Nouvelle simulation</h3>
+    <div class="form-group">
+      <label>Nom de la simulation</label>
+      <input type="text" id="new-name" placeholder="Ex: PRODUIT A">
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+      <select id="new-type">
+        <option value="produit">Produit</option>
+        <option value="test">Test</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn-primary" onclick="createSim()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Navigation ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showDetail(simId) {
+    showPage('detail');
+    document.getElementById('r-name').textContent = simId.toUpperCase().replace('-',' ');
+    calculate();
+  }
+
+  // ── Accordion ──
+  function toggleAcc(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  // ── Tabs ──
+  function switchTab(el, panelId) {
+    el.closest('.accordion').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    el.closest('.accordion').querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  function switchPeriod(el, panelId) {
+    el.closest('.result-card').querySelectorAll('.period-tabs .tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('par-commande').style.display = 'none';
+    document.getElementById('par-periode').style.display = 'none';
+    document.getElementById(panelId).style.display = 'block';
+  }
+
+  // ════════════════════════════════════════
+  //  STATE MANAGEMENT
+  // ════════════════════════════════════════
+
+  // Base de données des simulations en mémoire
+  let simulations = [
+    { id: 'lunette',       name: 'LUNETTE',       type: 'produit', achat:750,  vente:2500, dollar:250, dollarDay:90,  cout:2,  nbCmd:45, livraison:200, cod:0, emballage:50,  retour:150, confirm:80, tauxLiv:60 },
+    { id: 'lunette-perou', name: 'LUNETTE PEROU',  type: 'produit', achat:800,  vente:2200, dollar:250, dollarDay:24,  cout:1,  nbCmd:24, livraison:180, cod:0, emballage:40,  retour:120, confirm:75, tauxLiv:65 },
+    { id: 'montre',        name: 'MONTRE',         type: 'produit', achat:1200, vente:3500, dollar:250, dollarDay:100, cout:2,  nbCmd:50, livraison:200, cod:0, emballage:60,  retour:150, confirm:80, tauxLiv:60 },
+    { id: 'tkacher',       name: 'TKACHER',        type: 'test',    achat:900,  vente:2800, dollar:250, dollarDay:100, cout:2,  nbCmd:50, livraison:200, cod:0, emballage:50,  retour:150, confirm:80, tauxLiv:60 },
+    { id: 'wden',          name: 'WDEN',           type: 'test',    achat:700,  vente:2300, dollar:250, dollarDay:80,  cout:1.5,nbCmd:53, livraison:180, cod:0, emballage:45,  retour:130, confirm:78, tauxLiv:62 },
+  ];
+
+  let currentSimId = 'lunette'; // simulation ouverte dans le détail
+
+  // ── Calc Mode ──
+  function toggleCalcMode() {
+    const mode = document.getElementById('f-calcmode').value;
+    document.getElementById('fg-cout').style.display      = mode === 'cout'      ? 'flex' : 'none';
+    document.getElementById('fg-commandes').style.display = mode === 'commandes' ? 'flex' : 'none';
+    calculate();
+  }
+
+  // ── Core calculation (returns result object) ──
+  function computeSim(s) {
+    const confirm  = s.confirm  / 100;
+    const tauxLiv  = s.tauxLiv  / 100;
+    const nbCmd    = s.nbCmd    || 1;
+    const dollarDZD = s.dollarDay * s.dollar;
+
+    const pubParCmd   = dollarDZD / nbCmd;
+    const coutConf    = pubParCmd  / (confirm  || 1);
+    const coutLivr    = coutConf   / (tauxLiv  || 1);
+    const retourCmd   = s.retour * (1 - tauxLiv) / (tauxLiv || 1);
+    const cmdLivrees  = nbCmd * confirm * tauxLiv;
+    const benefice    = s.vente - s.achat - s.livraison - s.emballage - coutLivr - retourCmd - s.cod;
+    const netDay      = benefice * cmdLivrees;
+    const netMonth    = netDay * 30;
+    const totalInv    = s.achat + s.emballage + s.livraison + coutLivr;
+    const roi         = totalInv > 0 ? (benefice / totalInv) * 100 : 0;
+    const roas        = pubParCmd > 0 ? s.vente / pubParCmd : 0;
+    const cout        = s.dollarDay / nbCmd;
+
+    return { pubParCmd, coutConf, coutLivr, retourCmd, cmdLivrees, benefice, netDay, netMonth, roi, roas, cout, nbCmd };
+  }
+
+  // ── Render all cards ──
+  function renderCards() {
+    const container = document.getElementById('cards-container');
+    container.innerHTML = '';
+    simulations.forEach(s => {
+      const r = computeSim(s);
+      const fmt2 = (n) => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2});
+      const card = document.createElement('div');
+      card.className = 'sim-card' + (s.id === currentSimId ? ' active-card' : '');
+      card.dataset.id = s.id;
+      card.innerHTML = `
+        <div class="sim-card-header">
+          <div class="sim-card-title">
+            <h3>${s.name}</h3>
+            <span class="badge badge-${s.type}">${s.type === 'produit' ? 'Produit' : 'Test'}</span>
+          </div>
+          <div class="sim-card-actions">
+            <button title="Voir"      onclick="event.stopPropagation(); openDetail('${s.id}')">👁</button>
+            <button title="Modifier"  onclick="event.stopPropagation(); openDetail('${s.id}')">✏️</button>
+            <button class="delete" title="Supprimer" onclick="event.stopPropagation(); deleteSim('${s.id}')">🗑</button>
+          </div>
+        </div>
+        <p class="sim-card-desc">Les simulations de type '${s.type === 'produit' ? 'Produit' : 'Test'}' avec la même variation de frais partagent les frais de manière égale</p>
+        <div class="sim-card-fees"><span class="fees-badge">Frais: No Fees</span></div>
+        <div class="sim-stats">
+          <div class="stat-pill"><span class="val">$${fmt2(s.dollarDay)}</span><span class="lbl">Dépenses publicitaires / Day</span></div>
+          <div class="stat-pill"><span class="val">$${fmt2(r.cout)}</span><span class="lbl">Coût / Cost</span></div>
+          <div class="stat-pill"><span class="val">DZD ${fmt2(r.cmdLivrees)}</span><span class="lbl">Commandes livrées</span></div>
+          <div class="stat-pill"><span class="val">DZD ${fmt2(r.benefice)}</span><span class="lbl">Bénéfice net</span></div>
+          <div class="stat-pill"><span class="val green">${fmt2(r.roi)}%</span><span class="lbl">ROI</span></div>
+        </div>`;
+      card.addEventListener('click', () => openDetail(s.id));
+      container.appendChild(card);
+    });
+  }
+
+  // ── Open detail page and load sim data ──
+  function openDetail(id) {
+    currentSimId = id;
+    const s = simulations.find(x => x.id === id);
+    if (!s) return;
+
+    // Fill form fields
+    document.getElementById('f-name').value       = s.name;
+    document.getElementById('f-type').value       = s.type;
+    document.getElementById('f-achat').value      = s.achat;
+    document.getElementById('f-dollar').value     = s.dollar;
+    document.getElementById('f-vente').value      = s.vente;
+    document.getElementById('f-dollars-day').value= s.dollarDay;
+    document.getElementById('f-cout').value       = s.cout;
+    document.getElementById('f-commandes').value  = s.nbCmd;
+    document.getElementById('f-livraison').value  = s.livraison;
+    document.getElementById('f-cod').value        = s.cod;
+    document.getElementById('f-emballage').value  = s.emballage;
+    document.getElementById('f-retour').value     = s.retour;
+    document.getElementById('f-confirm').value    = s.confirm;
+    document.getElementById('f-taux-liv').value   = s.tauxLiv;
+
+    document.getElementById('r-name').textContent = s.name;
+    document.getElementById('r-badge').className  = 'badge badge-' + s.type;
+    document.getElementById('r-badge').textContent= s.type === 'produit' ? 'Produit' : 'Test';
+
+    showPage('detail');
+    calculate();
+  }
+
+  // ── Read form & update current sim in memory ──
+  function readForm() {
+    const s = simulations.find(x => x.id === currentSimId);
+    if (!s) return;
+    const mode = document.getElementById('f-calcmode').value;
+    s.name      = document.getElementById('f-name').value.trim().toUpperCase() || s.name;
+    s.type      = document.getElementById('f-type').value;
+    s.achat     = parseFloat(document.getElementById('f-achat').value)      || 0;
+    s.dollar    = parseFloat(document.getElementById('f-dollar').value)     || 1;
+    s.vente     = parseFloat(document.getElementById('f-vente').value)      || 0;
+    s.dollarDay = parseFloat(document.getElementById('f-dollars-day').value)|| 0;
+    s.livraison = parseFloat(document.getElementById('f-livraison').value)  || 0;
+    s.cod       = parseFloat(document.getElementById('f-cod').value)        || 0;
+    s.emballage = parseFloat(document.getElementById('f-emballage').value)  || 0;
+    s.retour    = parseFloat(document.getElementById('f-retour').value)     || 0;
+    s.confirm   = parseFloat(document.getElementById('f-confirm').value)    || 0;
+    s.tauxLiv   = parseFloat(document.getElementById('f-taux-liv').value)   || 0;
+    if (mode === 'cout') {
+      s.cout  = parseFloat(document.getElementById('f-cout').value) || 0;
+      s.nbCmd = s.dollarDay / (s.cout || 1);
+    } else {
+      s.nbCmd = parseFloat(document.getElementById('f-commandes').value) || 0;
+      s.cout  = s.nbCmd > 0 ? s.dollarDay / s.nbCmd : 0;
+    }
+  }
+
+  // ── Main Calculation (reads form live) ──
+  function calculate() {
+    const achat     = parseFloat(document.getElementById('f-achat').value)       || 0;
+    const vente     = parseFloat(document.getElementById('f-vente').value)       || 0;
+    const dollar    = parseFloat(document.getElementById('f-dollar').value)      || 1;
+    const dollarDay = parseFloat(document.getElementById('f-dollars-day').value) || 0;
+    const livraison = parseFloat(document.getElementById('f-livraison').value)   || 0;
+    const cod       = parseFloat(document.getElementById('f-cod').value)         || 0;
+    const emballage = parseFloat(document.getElementById('f-emballage').value)   || 0;
+    const retour    = parseFloat(document.getElementById('f-retour').value)      || 0;
+    const confirm   = (parseFloat(document.getElementById('f-confirm').value)    || 0) / 100;
+    const tauxLiv   = (parseFloat(document.getElementById('f-taux-liv').value)   || 0) / 100;
+
+    const mode = document.getElementById('f-calcmode').value;
+    let coutUSD = 0, nbCmd = 0;
+    if (mode === 'cout') {
+      coutUSD = parseFloat(document.getElementById('f-cout').value) || 0;
+      nbCmd   = dollarDay / (coutUSD || 1);
+    } else {
+      nbCmd   = parseFloat(document.getElementById('f-commandes').value) || 0;
+      coutUSD = nbCmd > 0 ? dollarDay / nbCmd : 0;
+    }
+    document.getElementById('f-commandes').value = Math.round(nbCmd * 100) / 100;
+    document.getElementById('f-cout').value       = Math.round(coutUSD * 100) / 100;
+
+    const pubParCmd   = (dollarDay * dollar) / (nbCmd || 1);
+    const coutCmdConf = pubParCmd  / (confirm  || 1);
+    const coutCmdLivr = coutCmdConf / (tauxLiv || 1);
+    const retourCmd   = retour * (1 - tauxLiv) / (tauxLiv || 1);
+    const cmdLivrees  = nbCmd * confirm * tauxLiv;
+    const beneficeNet = vente - achat - livraison - emballage - coutCmdLivr - retourCmd - cod;
+    const netDay      = beneficeNet * cmdLivrees;
+    const netMonth    = netDay * 30;
+    const totalInvesti= achat + emballage + livraison + coutCmdLivr;
+    const roi         = totalInvesti > 0 ? (beneficeNet / totalInvesti) * 100 : 0;
+    const roas        = pubParCmd > 0 ? vente / pubParCmd : 0;
+
+    const fmt = (n) => 'DZD ' + n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+    document.getElementById('r-net').textContent     = fmt(beneficeNet);
+    document.getElementById('r-daily').textContent   = fmt(netDay) + ' / Day';
+    document.getElementById('r-monthly').textContent = fmt(netMonth);
+    document.getElementById('r-roi').textContent     = roi.toFixed(2) + '%';
+
+    document.getElementById('t-achat').textContent     = fmt(achat);
+    document.getElementById('t-vente').textContent     = fmt(vente);
+    document.getElementById('t-diff-liv').textContent  = fmt(livraison);
+    document.getElementById('t-emb').textContent       = fmt(emballage);
+    document.getElementById('t-cout-conf').textContent = fmt(coutCmdConf);
+    document.getElementById('t-cout-livr').textContent = fmt(coutCmdLivr);
+    document.getElementById('t-retour').textContent    = fmt(retourCmd);
+    document.getElementById('t-cod-cmd').textContent   = fmt(cod);
+    document.getElementById('t-benefice').textContent  = fmt(beneficeNet);
+    document.getElementById('t-roi').textContent       = roi.toFixed(2) + '%';
+    document.getElementById('t-roas').textContent      = roas.toFixed(2);
+
+    document.getElementById('tp-cmd-day').textContent   = Math.round(nbCmd);
+    document.getElementById('tp-liv-day').textContent   = cmdLivrees.toFixed(2);
+    document.getElementById('tp-net-day').textContent   = fmt(netDay);
+    document.getElementById('tp-net-month').textContent = fmt(netMonth);
+    document.getElementById('tp-pub').textContent       = '$' + dollarDay.toFixed(2);
+  }
+
+  // ── Save button ──
+  function saveAndCalculate() {
+    readForm();           // sauvegarde dans le tableau simulations[]
+    calculate();          // recalcule et affiche
+    renderCards();        // met à jour la liste
+    // Feedback visuel
+    const btn = document.querySelector('.btn-primary');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Enregistré !';
+    btn.style.background = '#16a34a';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── Delete simulation ──
+  function deleteSim(id) {
+    if (!confirm('Supprimer cette simulation ?')) return;
+    simulations = simulations.filter(s => s.id !== id);
+    if (currentSimId === id) currentSimId = simulations[0]?.id || '';
+    renderCards();
+  }
+
+  // ── Modal ──
+  function openModal()  { document.getElementById('modal-overlay').classList.add('open'); }
+  function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+  function createSim() {
+    const name = document.getElementById('new-name').value.trim().toUpperCase();
+    const type = document.getElementById('new-type').value;
+    if (!name) { alert('Veuillez entrer un nom'); return; }
+    const id = 'sim-' + Date.now();
+    simulations.unshift({
+      id, name, type,
+      achat:0, vente:0, dollar:250, dollarDay:0,
+      cout:0, nbCmd:0, livraison:0, cod:0, emballage:0, retour:0,
+      confirm:80, tauxLiv:60
+    });
+    renderCards();
+    closeModal();
+    document.getElementById('new-name').value = '';
+    openDetail(id);
+  }
+
+  // ── Search / Filter ──
+  function filterCards() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.sim-card').forEach(c => {
+      const name = c.querySelector('h3').textContent.toLowerCase();
+      c.style.display = name.includes(q) ? '' : 'none';
+    });
+  }
+
+  // ── Override showPage to refresh cards on return ──
+  const _origShowPage = showPage;
+  function showPage(name) {
+    _origShowPage(name);
+    if (name === 'sims') renderCards();
+  }
+
+  // Init
+  renderCards();
+  calculate();
+</script>
+
+</body>
+</html>
