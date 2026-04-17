@@ -1,0 +1,17 @@
+تفضل الملف باسم index.html 👇​​​​​​​​​​​​​​​​
+
+تفضل! ✅ الملف اسمه الآن index.html
+
+الخطوات:
+1️⃣ احذف texte.txt من GitHub
+2️⃣ ارفع هذا الملف index.html على GitHub
+3️⃣ بعدها فعّل GitHub Pages:
+	•	اضغط More → Settings
+	•	اختر Pages
+	•	في Branch اختر main → Save
+4️⃣ موقعك سيكون على:**
+
+https://neggaziososama81-pixel.github.io/cod-pricing
+
+
+أرسل لي صورة بعد الرفع! 📸​​​​​​​​​​​​​​​​
